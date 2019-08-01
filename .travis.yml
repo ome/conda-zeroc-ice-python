@@ -1,0 +1,19 @@
+# https://gist.github.com/zshaheen/fe76d1507839ed6fbfbccef6b9c13ed9/22cc5a53c3d3532be5605b4a9751d042a7db6bfe
+
+install:
+  # Install Anaconda
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    fi
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - conda install conda-build anaconda-client
+  - conda config --set always_yes yes --set changeps1 no
+  - conda config --set anaconda_upload no
+  - conda update -q conda
+  - conda build .
+
+after_success:
+  - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && anaconda -t $CONDA_UPLOAD_TOKEN upload -u $CONDA_USER -l nightly miniconda/conda-bld/$TRAVIS_OS_NAME-64/zeroc-ice-*.tar.bz2 --force
