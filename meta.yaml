@@ -16,13 +16,18 @@ build:
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
 
 requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
   host:
+    - bzip2
+    - expat
     - openssl
     - pip
     - python
   run:
-    - openssl
     - python
+    # Other dependencies are automatic
 
 test:
   imports:
