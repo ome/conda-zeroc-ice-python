@@ -5,9 +5,6 @@ matrix:
   include:
     - os: linux
     - os: osx
-    # Default xcode image is missing headers:
-    # https://github.com/travis-ci/travis-ci/issues/9640
-      osx_image: xcode10.1
 
 env:
   global:
@@ -15,6 +12,14 @@ env:
     - PATH="$HOME/miniconda/bin:$PATH"
 
 install:
+  # xcode image is missing headers
+  # https://github.com/travis-ci/travis-ci/issues/9640
+  # https://docs.conda.io/projects/conda-build/en/latest/resources/compiler-tools.html#macos-sdk
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+      pushd /opt;
+      curl -L https://github.com/phracker/MacOSX-SDKs/releases/download/10.13/MacOSX10.9.sdk.tar.xz | sudo tar xf -;
+      popd;
+    fi
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
         wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh;
     else
