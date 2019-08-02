@@ -1,9 +1,13 @@
 ---
 language: generic
 
-os:
-  - linux
-  - osx
+matrix:
+  include:
+    - os: linux
+    - os: osx
+    # Default xcode image is missing headers:
+    # https://github.com/travis-ci/travis-ci/issues/9640
+      osx_image: xcode6.4
 
 env:
   global:
