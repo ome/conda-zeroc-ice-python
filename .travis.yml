@@ -1,6 +1,10 @@
 ---
 language: python
 
+os:
+  - linux
+  - osx
+
 env:
   global:
     - PACKAGE_NAME=zeroc-ice
