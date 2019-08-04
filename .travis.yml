@@ -27,6 +27,7 @@ install:
     fi
   - bash miniconda.sh -b -p $HOME/miniconda
   - conda install -y conda-build anaconda-client
+  - conda info -a
 
 script:
   - conda build .
