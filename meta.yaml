@@ -8,6 +8,10 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: fe0ebacb6996870d0aa46511c126f9b3cfe88257517a5608d63332e9b6fb1717
+  patches:
+    # https://forums.zeroc.com/discussion/46580/python-3-6-3-ice-3-5-1-crash-on-exit
+    # https://github.com/zeroc-ice/ice/commit/5008cf82774e77b119d371a2677ac36060184e78
+    - 0001-ice8496-python_crash_on_exit.diff
 
 build:
   number: 0
