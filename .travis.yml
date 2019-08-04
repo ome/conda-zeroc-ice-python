@@ -4,7 +4,13 @@ language: generic
 matrix:
   include:
     - os: linux
+      env: PYTHON=2.7
+    - os: linux
+      env: PYTHON=3.6
     - os: osx
+      env: PYTHON=2.7
+    - os: osx
+      env: PYTHON=3.6
 
 env:
   global:
@@ -30,7 +36,7 @@ install:
   - conda info -a
 
 script:
-  - conda build .
+  - conda build --python $PYTHON .
 
 deploy:
   - provider: script
