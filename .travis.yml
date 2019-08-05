@@ -36,6 +36,10 @@ install:
   - conda info -a
 
 script:
+  # Override the build string for dev builds
+  - if [ -z "${TRAVIS_TAG}" ]; then
+      sed "s/%BRANCH%/${TRAVIS_BRANCH}/" recipe_clobber.yaml.template > recipe_clobber.yaml;
+    fi
   - conda build --python $PYTHON .
 
 deploy:
