@@ -1,5 +1,5 @@
 {% set name = "zeroc-ice" %}
-{% set version = "3.6.4" %}
+{% set version = "3.6.5" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,11 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: fe0ebacb6996870d0aa46511c126f9b3cfe88257517a5608d63332e9b6fb1717
-  patches:
-    # https://forums.zeroc.com/discussion/46580/python-3-6-3-ice-3-5-1-crash-on-exit
-    # https://github.com/zeroc-ice/ice/commit/5008cf82774e77b119d371a2677ac36060184e78
-    - 0001-ice8496-python_crash_on_exit.diff
+  sha256: 4235ffeb605bcd4e22e716577f7d61e4aa1bc82f65276bb542701a81b7933356
 
 build:
   number: 0
