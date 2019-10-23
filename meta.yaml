@@ -2,7 +2,7 @@
 {% set version = "3.6.5" %}
 
 package:
-  name: "{{ pypiname|lower }}-python"
+  name: "{{ pypiname|lower }}36-python"
   version: "{{ version }}{{ environ.get('VERSION_SUFFIX', '') }}"
 
 source:
