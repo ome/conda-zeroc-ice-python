@@ -20,7 +20,7 @@ matrix:
 
 env:
   global:
-    - PACKAGE_NAME=zeroc-ice-python
+    - PACKAGE_NAME=zeroc-ice36-python
     - PATH="$HOME/miniconda/bin:$PATH"
 
 install:
