@@ -4,18 +4,14 @@ language: generic
 matrix:
   include:
     - os: linux
-      env: PYTHON=2.7
+      env: PYTHON=3.6
     - os: linux
-      env: PYTHON=3.6
-    - os: osx
-      env: PYTHON=2.7
-      osx_image: xcode10.1
+      env: PYTHON=3.7
     - os: osx
       env: PYTHON=3.6
       osx_image: xcode10.1
-  allow_failures:
     - os: osx
-      env: PYTHON=2.7
+      env: PYTHON=3.7
       osx_image: xcode10.1
 
 env:
