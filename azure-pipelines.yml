@@ -1,0 +1,76 @@
+# Based on
+# https://github.com/MicrosoftDocs/pipelines-anaconda/blob/3cf8252785ea2c873cc9c20e676b14f7b48f35ce/azure-pipelines.yml
+
+jobs:
+- job:
+  displayName: ubuntu-16.04
+  pool:
+    vmImage: 'ubuntu-16.04'
+  strategy:
+    matrix:
+      Python36:
+        python.version: '3.6'
+
+  steps:
+  - bash: echo "##vso[task.prependpath]$CONDA/bin"
+    displayName: Add conda to PATH
+
+  - bash: conda install -y conda-build anaconda-client
+    displayName: Create Anaconda environment
+
+  - bash: |
+      conda info -a
+      conda build --python $PYTHON_VERSION .
+    displayName: build
+
+- job:
+  displayName: macOS-10.14
+  pool:
+    vmImage: 'macOS-10.14'
+  strategy:
+    matrix:
+      Python36:
+        python.version: '3.6'
+
+  steps:
+  - bash: echo "##vso[task.prependpath]$CONDA/bin"
+    displayName: Add conda to PATH
+
+  - bash: |
+      sudo mkdir -p /opt
+      pushd /opt
+      curl -L https://github.com/phracker/MacOSX-SDKs/releases/download/10.13/MacOSX10.13.sdk.tar.xz | sudo tar xf -
+      popd
+    displayName: Download 10.13 SDK
+
+  # Can't write to base environment on macOS
+  - bash: conda create -n omerobuild -y conda-build anaconda-client
+    displayName: Create Anaconda environment
+
+  - bash: |
+      source activate omerobuild
+      conda info -a
+      conda build --python $PYTHON_VERSION .
+    displayName: build
+
+- job:
+  displayName: vs2017-win2016
+  pool:
+    vmImage: 'vs2017-win2016'
+  strategy:
+    matrix:
+      Python36:
+        python.version: '3.6'
+
+  steps:
+  - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
+    displayName: Add conda to PATH
+
+  - script: conda install -y conda-build anaconda-client
+    displayName: Create Anaconda environment
+
+  - script: |
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+      conda info -a
+      conda build --python %PYTHON_VERSION% .
+    displayName: build
