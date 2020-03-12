@@ -28,6 +28,8 @@ stages:
       matrix:
         Python36:
           python.version: '3.6'
+        Python37:
+          python.version: '3.7'
 
     steps:
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -42,7 +44,7 @@ stages:
       displayName: build
 
     - publish: /usr/share/miniconda/conda-bld/linux-64
-      artifact: linux-64
+      artifact: linux-64-$(python.version)
 
   - job:
     displayName: macOS-10.14
@@ -52,6 +54,8 @@ stages:
       matrix:
         Python36:
           python.version: '3.6'
+        Python37:
+          python.version: '3.7'
 
     steps:
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -79,7 +83,7 @@ stages:
       displayName: build
 
     - publish: /Users/runner/.conda/envs/omerobuild/conda-bld/osx-64
-      artifact: osx-64
+      artifact: osx-64-$(python.version)
 
   - job:
     displayName: vs2017-win2016
@@ -89,6 +93,8 @@ stages:
       matrix:
         Python36:
           python.version: '3.6'
+        Python37:
+          python.version: '3.7'
 
     steps:
     - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
@@ -104,7 +110,7 @@ stages:
       displayName: build
 
     - publish: C:\Miniconda\conda-bld\win-64
-      artifact: win-64
+      artifact: win-64-$(python.version)
 
 - stage: conda_upload
   jobs:
