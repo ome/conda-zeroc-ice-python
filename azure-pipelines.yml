@@ -5,7 +5,7 @@ variables:
   PACKAGE_NAME: zeroc-ice36-python
   # Set this to non-empty for testing
   # This will add .test to the version and also add a testing label
-  # VERSION_SUFFIX: .test
+  VERSION_SUFFIX: .test
   # ANACONDA_USER: Dynmically set from another variable in stage conda_upload
   # ANACONDA_API_TOKEN: must be a secret variable
 
@@ -121,7 +121,7 @@ stages:
     # creates an environment if it doesn't exist
     environment: 'conda'
     # Deploy Tags only (comment out if you want to test with a branch)
-    condition: startsWith(variables['build.sourceBranch'], 'refs/tags/')
+    # condition: startsWith(variables['build.sourceBranch'], 'refs/tags/')
     strategy:
       runOnce:
         deploy:
@@ -138,16 +138,19 @@ stages:
             displayName: List artifacts
 
           - bash: |
+              set -e
               ANACONDA_USER=${BUILD_REPOSITORY_NAME%/*}
               if [ -z "$ANACONDA_API_TOKEN" ]; then
                 echo ANACONDA_API_TOKEN required
                 exit 1
               fi
+              anaconda -v whoami
               for f in $(Pipeline.Workspace)/*/${PACKAGE_NAME}*.tar.bz2; do
                 if [ -z "${VERSION_SUFFIX}" ]; then
                   anaconda upload --user ${ANACONDA_USER} $f
                 else
-                  anaconda upload --user ${ANACONDA_USER} $f --force -l testing
+                  anaconda -v upload --user ${ANACONDA_USER} $f --force -l testing
+                  echo $?
                 fi
               done
             env:
