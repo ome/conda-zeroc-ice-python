@@ -18,6 +18,7 @@ trigger:
     - '*'
 
 stages:
+
 - stage: conda_build
   jobs:
   - job:
@@ -72,17 +73,19 @@ stages:
         popd
       displayName: Download 10.13 SDK
 
-    # Can't write to base environment on macOS
-    - bash: conda create -n omerobuild -y conda-build anaconda-client
+    # Make writeable by non root
+    - bash: sudo chown -R "$USER" /usr/local/miniconda
+      displayName: Make miniconda directory writeable
+
+    - bash: conda install -y conda-build anaconda-client
       displayName: Create Anaconda environment
 
     - bash: |
-        source activate omerobuild
         conda info -a
         conda build --python $PYTHON_VERSION .
       displayName: build
 
-    - publish: /Users/runner/.conda/envs/omerobuild/conda-bld/osx-64
+    - publish: /usr/local/miniconda/conda-bld/osx-64
       artifact: osx-64-$(python.version)
 
   - job:
@@ -133,16 +136,17 @@ stages:
             displayName: Create Anaconda environment
 
           - bash: |
-              env
               ls -Rl $(Pipeline.Workspace)
             displayName: List artifacts
 
           - bash: |
+              set -ex
               ANACONDA_USER=${BUILD_REPOSITORY_NAME%/*}
               if [ -z "$ANACONDA_API_TOKEN" ]; then
                 echo ANACONDA_API_TOKEN required
                 exit 1
               fi
+              anaconda -v whoami
               for f in $(Pipeline.Workspace)/*/${PACKAGE_NAME}*.tar.bz2; do
                 if [ -z "${VERSION_SUFFIX}" ]; then
                   anaconda upload --user ${ANACONDA_USER} $f
