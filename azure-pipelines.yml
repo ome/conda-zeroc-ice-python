@@ -139,7 +139,8 @@ stages:
 
           - bash: |
               set -e
-              ANACONDA_USER=${BUILD_REPOSITORY_NAME%/*}
+              # ANACONDA_USER=${BUILD_REPOSITORY_NAME%/*}
+              ANACONDA_USER=manics
               if [ -z "$ANACONDA_API_TOKEN" ]; then
                 echo ANACONDA_API_TOKEN required
                 exit 1
@@ -155,5 +156,6 @@ stages:
               done
             env:
               # Secret variables must be explicitly mapped
-              ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+              # ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+              ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN_TEMPORARY)
             displayName: Upload artifacts
