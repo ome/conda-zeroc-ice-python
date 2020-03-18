@@ -41,8 +41,8 @@ stages:
         exit 1
       env:
         # Secret variables must be explicitly mapped
-        # ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
-        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN_TEMPORARY)
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        # ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN_TEMPORARY)
         TEST_SECRET_ENV_VAR: $(OTHER_SECRET_ENV_VAR)
       displayName: Upload artifacts
 
