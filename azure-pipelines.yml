@@ -33,18 +33,21 @@ stages:
       displayName: Create Anaconda environment
 
     - bash: |
-        set -ex
-        echo "$TEST_SECRET_ENV_VAR" | wc
-        out=$(anaconda -v whoami 2>&1)
-        echo "$out"
-        echo "$out" | grep ome
-        exit 1
+        set -eux
+        anaconda -v whoami
       env:
         # Secret variables must be explicitly mapped
         ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
         # ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN_TEMPORARY)
-        TEST_SECRET_ENV_VAR: $(OTHER_SECRET_ENV_VAR)
-      displayName: Upload artifacts
+      displayName: whoami ANACONDA_API_TOKEN
+
+    - bash: |
+        set -eux
+        anaconda -v whoami
+      env:
+        # Secret variables must be explicitly mapped
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN_TEMPORARY)
+      displayName: whoami ANACONDA_API_TOKEN_TEMPORARY
 
 - stage: conda_build
   jobs:
@@ -166,7 +169,7 @@ stages:
             displayName: List artifacts
 
           - bash: |
-              set -e
+              set -ex
               # ANACONDA_USER=${BUILD_REPOSITORY_NAME%/*}
               ANACONDA_USER=manics
               if [ -z "$ANACONDA_API_TOKEN" ]; then
