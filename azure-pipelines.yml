@@ -49,9 +49,6 @@ stages:
         ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN_TEMPORARY)
       displayName: whoami ANACONDA_API_TOKEN_TEMPORARY
 
-    - bash: exit 1
-      displayName: Abort (just checking token)
-
 - stage: conda_build
   jobs:
   - job:
