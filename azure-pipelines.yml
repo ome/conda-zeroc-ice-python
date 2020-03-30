@@ -18,36 +18,6 @@ trigger:
     - '*'
 
 stages:
-- stage: check_anaconda_token
-  jobs:
-  - job:
-    displayName: Check ANACONDA_API_TOKEN
-    pool:
-      vmImage: 'ubuntu-16.04'
-
-    steps:
-    - bash: echo "##vso[task.prependpath]$CONDA/bin"
-      displayName: Add conda to PATH
-
-    - bash: conda install -y conda-build anaconda-client
-      displayName: Create Anaconda environment
-
-    - bash: |
-        set -eux
-        anaconda -v whoami
-      env:
-        # Secret variables must be explicitly mapped
-        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
-        # ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN_TEMPORARY)
-      displayName: whoami ANACONDA_API_TOKEN
-
-    - bash: |
-        set -eux
-        anaconda -v whoami
-      env:
-        # Secret variables must be explicitly mapped
-        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN_TEMPORARY)
-      displayName: whoami ANACONDA_API_TOKEN_TEMPORARY
 
 - stage: conda_build
   jobs:
@@ -166,7 +136,6 @@ stages:
             displayName: Create Anaconda environment
 
           - bash: |
-              env
               ls -Rl $(Pipeline.Workspace)
             displayName: List artifacts
 
@@ -182,8 +151,7 @@ stages:
                 if [ -z "${VERSION_SUFFIX}" ]; then
                   anaconda upload --user ${ANACONDA_USER} $f
                 else
-                  anaconda -v upload --user ${ANACONDA_USER} $f --force -l testing
-                  echo $?
+                  anaconda upload --user ${ANACONDA_USER} $f --force -l testing
                 fi
               done
             env:
