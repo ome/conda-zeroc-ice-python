@@ -33,6 +33,8 @@ stages:
           python.version: '3.7'
         Python38:
           python.version: '3.8'
+        Python39:
+          python.version: '3.9'
 
     steps:
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -61,6 +63,8 @@ stages:
           python.version: '3.7'
         Python38:
           python.version: '3.8'
+        Python39:
+          python.version: '3.9'
 
     steps:
     - bash: echo "##vso[task.prependpath]$CONDA/bin"
@@ -104,6 +108,8 @@ stages:
           python.version: '3.7'
         Python38:
           python.version: '3.8'
+        Python39:
+          python.version: '3.9'
 
     steps:
     - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
