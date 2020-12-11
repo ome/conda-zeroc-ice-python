@@ -59,7 +59,6 @@ jobs:
           ls -R "${{ steps.condablddir.outputs.condabld }}"
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
-        if: matrix.python == '3.6'
         with:
           path: "${{ steps.condablddir.outputs.condabld }}/*-64/zeroc-*"
           if-no-files-found: error
