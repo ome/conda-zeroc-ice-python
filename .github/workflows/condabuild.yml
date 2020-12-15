@@ -12,9 +12,6 @@ jobs:
         python: [3.6, 3.7, 3.8, 3.9]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    env:
-      gradle_version:  # set to empty to build with most recent version of gradle
-      gradle_commands: publishToMavenLocal exec # default is build
     steps:
       - name: setup-conda
         uses: s-weigand/setup-conda@v1.0.5
