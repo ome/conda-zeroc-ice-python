@@ -2,6 +2,8 @@
 [![Anaconda-Server Badge](https://anaconda.org/ome/zeroc-ice36-python/badges/version.svg)](https://anaconda.org/ome/zeroc-ice36-python)
 [![Actions Status](https://github.com/ome/conda-zeroc-ice36-python/workflows/Conda/badge.svg)](https://github.com/ome/conda-zeroc-ice36-python/actions)
 
+**This package is now deprecated as the zeroc-ice package is now distributed via conda-forge - https://anaconda.org/conda-forge/zeroc-ice**
+
 A Conda package for Zeroc Ice Python compatible with OMERO.
 
 
